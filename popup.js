@@ -127,7 +127,7 @@ function urlGet(){
 	var div = document.createElement('div');
 	for (i=0;i<tabs.length;i++) {
 		tabUrls.push(tabs[i].url);
-	} 
+	}
 	header = document.createElement('h1');
 	header.innerHTML = 'Tabs to download';
 	list = document.createElement('div');
@@ -168,7 +168,7 @@ function urlGet(){
 	document.querySelector('#btnDL').addEventListener('click', function(e) {
 		setTimeout(function(){ tabDL(); }, 1000*download_delay);
 	})
-	
+
 	document.querySelector('#editbtn').addEventListener('click', function(e) {
 		textarea = document.createElement('textarea');
 		textarea.id = 'txtin'
@@ -275,24 +275,7 @@ function tabDL(){
 	APIsuff = '&key=AIzaSyDqVYORLCUXxSv7zneerIgC2UYMnxvPeqQ&callback=bibli';
 	SI_codes = [];
 	for (i=0;i<tabUrls.length;i++) {
-		if (tabUrls[i].indexOf('pdf')>-1) {
-			var originalURL = tabUrls[i];
-			if (tabUrls[i].indexOf('ac.els-cdn.com')>-1) {
-				var SIid = originalURL.match(/ac.els-cdn.com\/(.*?)\//)[1];
-				var SIurl = 'http://www.sciencedirect.com/science/article/pii/'+SIid;
-				var queryUrl = SIurl;
-				SI_codes.push([SIurl,tabUrls[i]]);
-			}
-			else queryUrl = tabUrls[i];
-			var APIurl = APIpre + queryUrl + APIsuff;
-
-			bibliscript = document.createElement('script');
-			bibliscript.type = 'text/javascript';
-			bibliscript.src = APIurl;
-			document.head.appendChild(bibliscript);
-			//bibli callback provides the metadata for this URL asynchronously
-		}
-		else chrome.downloads.download({url: tabUrls[i]});
+		chrome.downloads.download({url: tabUrls[i], filename: "tabsave/" + tabUrls[i].substring(tabUrls[i].lastIndexOf('/')+1) });
 	}
 }
 document.addEventListener('DOMContentLoaded', function () {
